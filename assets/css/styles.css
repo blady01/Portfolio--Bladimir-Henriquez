@@ -1,3 +1,11 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(192, 247, 233, 0.514);
+  min-height: 100%;
+}
+
 /*===== GOOGLE FONTS =====*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 /*===== VARIABLES CSS =====*/
@@ -8,7 +16,7 @@
 
 /*===== Colores =====*/
 :root{
-  --first-color: #4070F4;
+  --first-color: #108a84;
   --second-color: #0E2431;
 }
 
@@ -116,7 +124,7 @@ img{
   top: 0;
   left: 0;
   z-index: var(--z-fixed);
-  background-color: #fff;
+  background-color: rgba(47, 184, 143, 0.856);
   box-shadow: 0 1px 4px rgba(146,161,176,.15);
 }
 
