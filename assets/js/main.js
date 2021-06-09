@@ -58,4 +58,89 @@ sr.reveal('.contact__input',{interval: 200});
 
 
 
+function sendEmail(e) {
+    e.preventDefault();
+    const name = document.getElementById('txt-name'),
+        email = document.getElementById('txt-email'),
+        message = document.getElementById('txt-message');
 
+    if (name.value === '' || email.value === '' || message.value === '' ) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Fill in all the fields',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
+    } else {
+
+
+        var send = {
+            userSupport: 'Eliezer Jimenez',
+            emailSupport: 'jiemenezpinedaeliezer@gmail.com',
+            nameContact: name.value,
+            lastContact: ' ',
+            emailContact: email.value,
+            message: message.value,
+            phoneContact: ' '
+        }
+        console.log(send);
+        let timerInterval
+        Swal.fire({
+            title: 'Sending!',
+            html: 'Please wait',
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    const content = Swal.getHtmlContainer()
+                    if (content) {
+                        const b = content.querySelector('b')
+                        if (b) {
+                            b.textContent = Swal.getTimerLeft()
+                        }
+                    }
+                }, 100)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+            }
+
+        })
+        fetch('https://backend-hiperefe.herokuapp.com/supportEmail', {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(send), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .catch(error => {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Ups, Try Again Later',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+        .then(response => {
+            name.value = '';
+            email.value = '';
+            message.value = '';
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            console.log('Success:', response)
+        });
+    }
+}
